@@ -11,6 +11,17 @@ namespace Library.Hobbits.Services
     {
         public List<Person> studentList = new List<Person>();
 
-        public void Add(Person student) { studentList.Add(student);}
+        public void Add(Person student) 
+        { 
+            studentList.Add(student);
+        }
+
+        public List<Person> Students
+        {
+            get
+            {
+                return studentList;
+            }
+        }
     }
 }
