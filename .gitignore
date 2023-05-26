@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/App.Hobbits/.vs/App.Hobbits
+/App.Hobbits/App.Hobbits/obj
+/App.Hobbits/Library.Hobbits/obj
+/App.Hobbits/App.Hobbits/bin/Debug/net6.0
+/App.Hobbits/Library.Hobbits/bin/Debug/net6.0
