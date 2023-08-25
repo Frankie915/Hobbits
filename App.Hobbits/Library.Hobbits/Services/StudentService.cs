@@ -23,5 +23,10 @@ namespace Library.Hobbits.Services
                 return studentList;
             }
         }
+
+        public IEnumerable<Person> Search(string query) 
+        {
+            return studentList.Where(s => s.Name.ToUpper().Contains(query.ToUpper()));
+        }
     }
 }
