@@ -1,5 +1,6 @@
 ﻿using App.Hobbits.Helpers;
 using Library.Hobbits.Models;
+using System.Reflection;
 
 namespace MyApp
 {
@@ -15,30 +16,35 @@ namespace MyApp
             {
                 Console.WriteLine("Choose an action:");
                 Console.WriteLine("1. Add a student enrollment");
-                Console.WriteLine("2. List all enrolled students");
-                Console.WriteLine("3. Search for student");
-                Console.WriteLine("4. Add a new course");
-                Console.WriteLine("5. Exit");
+                Console.WriteLine("2. Update student enrollment");
+                Console.WriteLine("3. List all enrolled students");
+                Console.WriteLine("4. Search for student");
+                Console.WriteLine("5. Add a new course");
+                Console.WriteLine("6. Exit");
                 var input = Console.ReadLine();
                 if (int.TryParse(input, out int result))
                 {
                     if (result == 1)
                     {
                         studentHelper.CreateStudentRecord();
-                    } 
+                    }
                     else if (result == 2)
                     {
-                        studentHelper.ListStudents();
+                        studentHelper.UpdateStudentRecord();
                     }
                     else if (result == 3)
                     {
-                        studentHelper.SearchStudents();
+                        studentHelper.ListStudents();
                     }
                     else if (result == 4)
                     {
-                        courseHelper.CreateCourseRecord();
+                        studentHelper.SearchStudents();
                     }
                     else if (result == 5)
+                    {
+                        courseHelper.CreateCourseRecord();
+                    }
+                    else if (result == 6)
                     {
                         cont = false;
                     }

@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace App.Hobbits.Helpers
 {   
-    public class StudentHelper
+    internal class StudentHelper
     {
         private StudentService studentService = new StudentService();
-        public void CreateStudentRecord()
+        public void CreateStudentRecord(Person? selectedStudent = null)
         {
             Console.WriteLine("What is the id of the student?");
             var id = Console.ReadLine();
@@ -34,15 +34,38 @@ namespace App.Hobbits.Helpers
                 classEnum = PersonClassification.Senior;
             }
 
-            var student = new Person
+            bool isCreate = false;
+            if(selectedStudent == null)
             {
-                Id = int.Parse(id ?? "0"),
-                Name = name ?? string.Empty,
-                Classification = classEnum
-            };
+                isCreate = true;
+                selectedStudent = new Person();
+            }
 
-            studentService.Add(student);
+            selectedStudent.Id = int.Parse(id ?? "0");
+            selectedStudent.Name = name ?? string.Empty;
+            selectedStudent.Classification = classEnum;
 
+            if (isCreate)
+            {
+                studentService.Add(selectedStudent);
+            }
+        }
+
+        public void UpdateStudentRecord()
+        {
+            Console.WriteLine("Select a student to update: ");
+            ListStudents();
+
+            var selectionStr = Console.ReadLine();
+
+            if (int.TryParse(selectionStr, out int selectionInt))
+            {
+                var selectedStudent = studentService.Students.FirstOrDefault(s => s.Id == selectionInt);
+                if(selectedStudent != null) 
+                {
+                    CreateStudentRecord(selectedStudent);
+                }
+            }
         }
 
         public void ListStudents()
@@ -57,5 +80,6 @@ namespace App.Hobbits.Helpers
 
             studentService.Search(query).ToList().ForEach(Console.WriteLine);
         }
+
     }
 }
