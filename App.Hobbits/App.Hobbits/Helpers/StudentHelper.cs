@@ -7,15 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace App.Hobbits.Helpers
-{
-    
+{   
     public class StudentHelper
     {
-
         private StudentService studentService = new StudentService();
         public void CreateStudentRecord()
         {
-
             Console.WriteLine("What is the id of the student?");
             var id = Console.ReadLine();
             Console.WriteLine("What is the name of the student?");

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Library.Hobbits.Models
+﻿namespace Library.Hobbits.Models
 {
-    internal class Module
+    public class Module
     {
     }
 }
