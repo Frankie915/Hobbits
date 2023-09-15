@@ -21,7 +21,7 @@
 
         public override string ToString()
         {
-            return $"[{Code}] {Name}";
+            return $"[{Code}] - {Name}";
         }
     }
 }
