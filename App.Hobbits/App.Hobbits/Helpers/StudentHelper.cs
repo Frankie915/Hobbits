@@ -11,10 +11,12 @@ namespace App.Hobbits.Helpers
     internal class StudentHelper
     {
         private StudentService studentService;
+        private CourseService courseService;
 
         public StudentHelper()
         {
             studentService = StudentService.Current;
+            courseService = CourseService.Current;
         }
 
         public void CreateStudentRecord(Person? selectedStudent = null)
@@ -77,6 +79,14 @@ namespace App.Hobbits.Helpers
         public void ListStudents()
         {
             studentService.Students.ForEach(Console.WriteLine);
+
+            Console.WriteLine("Select a student:");
+            var selectionStr = Console.ReadLine();
+            var selectionInt = int.Parse(selectionStr ?? "0");
+
+            Console.WriteLine("Student Course List:");
+            courseService.Courses.Where(c => c.Roster.Any(s => s.Id == selectionInt)).ToList().ForEach(Console.WriteLine);
+
         }
 
         public void SearchStudents() 
@@ -85,6 +95,11 @@ namespace App.Hobbits.Helpers
             var query = Console.ReadLine() ?? string.Empty;
 
             studentService.Search(query).ToList().ForEach(Console.WriteLine);
+            var selectionStr = Console.ReadLine();
+            var selectionInt = int.Parse(selectionStr ?? "0");
+
+            Console.WriteLine("Student Course List:");
+            courseService.Courses.Where(c => c.Roster.Any(s => s.Id == selectionInt)).ToList().ForEach(Console.WriteLine);
         }
 
     }

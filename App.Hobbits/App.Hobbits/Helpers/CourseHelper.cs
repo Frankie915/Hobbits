@@ -10,11 +10,12 @@ namespace App.Hobbits.Helpers
 {
 	public class CourseHelper
 	{
-		private CourseService courseService = new CourseService();
-        private StudentService studentService = new StudentService();
+		private CourseService courseService;
+        private StudentService studentService;
 
         public CourseHelper() { 
             studentService = StudentService.Current;
+            courseService = CourseService.Current;
         }
 
         public void CreateCourseRecord(Course? selectedCourse = null)
