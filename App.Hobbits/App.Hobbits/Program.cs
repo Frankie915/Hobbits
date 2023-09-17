@@ -1,5 +1,6 @@
 ﻿using App.Hobbits.Helpers;
 using Library.Hobbits.Models;
+using Library.Hobbits.Services;
 using System.Reflection;
 
 namespace MyApp
@@ -8,6 +9,7 @@ namespace MyApp
     {
         static void Main(string[] args)
         {
+            //var studentSrvc = new StudentService();
             var studentHelper = new StudentHelper();
             var courseHelper = new CourseHelper();
             bool cont = true;
