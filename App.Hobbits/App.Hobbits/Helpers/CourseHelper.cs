@@ -31,6 +31,8 @@ namespace App.Hobbits.Helpers
             Console.WriteLine("Which students should be enrolled in this course? ('Q' to quit)");
             var roster = new List<Person>();
             bool continueAdding = true;
+
+            // Add students
             while (continueAdding)
             {
                 studentService.Students.Where(s => !roster.Any(s2 => s2.Id == s.Id)).ToList().ForEach(Console.WriteLine);
@@ -58,6 +60,8 @@ namespace App.Hobbits.Helpers
             Console.WriteLine("Would u like to add assignments? (Y/N)");
             var assignResponse = Console.ReadLine() ?? "N";
             var assignments = new List<Assignment>();
+
+            // Add assignments
             if (assignResponse.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
             {
                 continueAdding = true;
@@ -79,7 +83,6 @@ namespace App.Hobbits.Helpers
                     Console.WriteLine("Due date: ");
                     var dueDate = DateTime.Parse(Console.ReadLine() ?? "01/01/1900");
 
-
                     assignments.Add(new Assignment
                     {
                         Name = assignmentName,
@@ -88,7 +91,7 @@ namespace App.Hobbits.Helpers
                         DueDate = dueDate
                     });
 
-                    Console.WriteLine("Add more courses? (Y/N)");
+                    Console.WriteLine("Add more assignments? (Y/N)");
                     assignResponse = Console.ReadLine() ?? "N";
                     if (assignResponse.Equals("N", StringComparison.InvariantCultureIgnoreCase))
                     {
@@ -121,7 +124,7 @@ namespace App.Hobbits.Helpers
         public void UpdateCourseRecord()
         {
             Console.WriteLine("Enter the code for the course to update:");
-            ListCourses();
+            SearchCourses();
 
             var selection = Console.ReadLine();
 
@@ -134,17 +137,34 @@ namespace App.Hobbits.Helpers
 
         }
 
+        /*
         public void ListCourses()
         {
             courseService.Courses.ForEach(Console.WriteLine);
         }
+        */
 
-        public void SearchCourses()
+        public void SearchCourses(string query = null)
         {
-            Console.WriteLine("Enter query: ");
-            var query = Console.ReadLine() ?? string.Empty;
+            if (string.IsNullOrEmpty(query))
+            {
+                courseService.Courses.ForEach(Console.WriteLine);
+            }
+            else
+            {
+                courseService.Search(query).ToList().ForEach(Console.WriteLine);
+            }
 
-            courseService.Search(query).ToList().ForEach(Console.WriteLine);
+            Console.WriteLine("Select a course: ");
+            var code = Console.ReadLine() ?? string.Empty;
+
+            var selectedCourse = courseService
+                .Courses
+                .FirstOrDefault(c => c.Code.Equals(code, StringComparison.InvariantCultureIgnoreCase));
+            if(selectedCourse != null)
+            {
+                Console.WriteLine(selectedCourse.DetailDisplay);
+            }
         }
     }
 }
