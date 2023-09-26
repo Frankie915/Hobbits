@@ -55,10 +55,13 @@ namespace MyApp
                     }
                     else if (result == 7)
                     {
-                        courseHelper.ListCourses();
+                        //courseHelper.ListCourses();
+                        courseHelper.SearchCourses();
                     }
                     else if (result == 8)
                     {
+                        Console.WriteLine("Enter query: ");
+                        var query = Console.ReadLine() ?? string.Empty;
                         courseHelper.SearchCourses();
                     }
                     else if (result == 9)
