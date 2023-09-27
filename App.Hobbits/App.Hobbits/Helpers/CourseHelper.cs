@@ -76,95 +76,9 @@ namespace App.Hobbits.Helpers
             }
          
             if (isNewCourse)
-            {
-                var roster = new List<Student>();
-                var assignments = new List<Assignment>();
-
-                //PersonClassification classEnum = PersonClassification.Freshmen;
-
-                Console.WriteLine("Which students should be enrolled in this course? ('Q' to quit)");
-                bool continueAdding = true;
-
-                // Add students
-                while (continueAdding)
-                {
-                    // Prints list
-                    studentService.Students.Where(s => !roster.Any(s2 => s2.Id == s.Id)).ToList().ForEach(Console.WriteLine);
-
-                    // Initalizes variable
-                    var selection = Console.ReadLine() ?? string.Empty;
-
-                    /*
-                    if (studentService.Students.Any(s => !roster.Any(s2 => s2.Id == s.Id)))
-                    {
-                        Console.WriteLine("Block 1");
-                        selection = Console.ReadLine() ?? string.Empty;
-                    }
-                    else 
-                    */
-                    if (selection.Equals("Q", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        continueAdding = false;
-                    }
-                    else
-                    {
-                        var selectedId = int.Parse(selection);
-                        var selectedStudent = studentService.Students.FirstOrDefault(s => s.Id == selectedId);
-                        if (selectedStudent != null)
-                        {
-                            roster.Add(selectedStudent);
-                        }
-                    }
-                    Console.WriteLine("(Q to quit)");
-                }
-
-                Console.WriteLine("Would u like to add assignments? (Y/N)");
-                var assignResponse = Console.ReadLine() ?? "N";
-                
-
-                // Add assignments
-                if (assignResponse.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    continueAdding = true;
-                    while (continueAdding)
-                    {
-                        // Name 
-                        Console.WriteLine("Name: ");
-                        var assignmentName = Console.ReadLine() ?? String.Empty;
-
-                        // Description
-                        Console.WriteLine("Description ");
-                        var assignmentDescription = Console.ReadLine() ?? String.Empty;
-
-                        // Total points
-                        Console.WriteLine("Total points: ");
-                        var totalPoints = decimal.Parse(Console.ReadLine() ?? "100");
-
-                        // Due Date
-                        Console.WriteLine("Due date: ");
-                        var dueDate = DateTime.Parse(Console.ReadLine() ?? "01/01/1900");
-
-                        assignments.Add(new Assignment
-                        {
-                            Name = assignmentName,
-                            Description = assignmentDescription,
-                            TotalAvailablePoints = totalPoints,
-                            DueDate = dueDate
-                        });
-
-                        Console.WriteLine("Add more assignments? (Y/N)");
-                        assignResponse = Console.ReadLine() ?? "N";
-                        if (assignResponse.Equals("N", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            continueAdding = false;
-                        }
-                    }
-                }
-
-                selectedCourse.Roster = new List<Person>();
-                selectedCourse.Roster.AddRange(roster);
-                selectedCourse.Assignments = new List<Assignment>();
-                selectedCourse.Assignments.AddRange(assignments);
+            { 
+                SetupRoster(selectedCourse);
+                SetupAssignments(selectedCourse);
             }                      
            
             if (isNewCourse)
@@ -217,6 +131,86 @@ namespace App.Hobbits.Helpers
             {
                 Console.WriteLine(selectedCourse.DetailDisplay);
             }
+        }
+
+        private void SetupRoster(Course c)
+        {
+            Console.WriteLine("Which students should be enrolled in this course? ('Q' to quit)");
+            bool continueAdding = true;
+            while (continueAdding)
+            {
+                // Prints list
+                studentService.Students.Where(s => !c.Roster.Any(s2 => s2.Id == s.Id)).ToList().ForEach(Console.WriteLine);
+
+                // Initalizes variable
+                var selection = Console.ReadLine() ?? string.Empty;
+                /*
+                if (studentService.Students.Any(s => !c.Roster.Any(s2 => s2.Id == s.Id)))
+                {
+                    selection = Console.ReadLine() ?? string.Empty;
+                }
+                */
+
+                if (selection.Equals("Q", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    continueAdding = false;
+                }
+                else
+                {
+                    var selectedId = int.Parse(selection);
+                    var selectedStudent = studentService.Students.FirstOrDefault(s => s.Id == selectedId);
+                    if (selectedStudent != null)
+                    {
+                        c.Roster.Add(selectedStudent);
+                    }
+                }
+                Console.WriteLine("(Q to quit)");
+            }
+        }
+
+        private void SetupAssignments(Course c)
+        {
+            Console.WriteLine("Would u like to add assignments? (Y/N)");
+            bool continueAdding = true;
+            var assignResponse = Console.ReadLine() ?? "N";
+            if (assignResponse.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+            {
+                continueAdding = true;
+                while (continueAdding)
+                {
+                    // Name 
+                    Console.WriteLine("Name:");
+                    var assignmentName = Console.ReadLine() ?? String.Empty;
+
+                    // Description
+                    Console.WriteLine("Description:");
+                    var assignmentDescription = Console.ReadLine() ?? String.Empty;
+
+                    // Total points
+                    Console.WriteLine("Total points:");
+                    var totalPoints = decimal.Parse(Console.ReadLine() ?? "100");
+
+                    // Due Date
+                    Console.WriteLine("Due date:");
+                    var dueDate = DateTime.Parse(Console.ReadLine() ?? "01/01/1900");
+
+                    c.Assignments.Add(new Assignment
+                    {
+                        Name = assignmentName,
+                        Description = assignmentDescription,
+                        TotalAvailablePoints = totalPoints,
+                        DueDate = dueDate
+                    });
+
+                    Console.WriteLine("Add more assignments? (Y/N)");
+                    assignResponse = Console.ReadLine() ?? "N";
+                    if (assignResponse.Equals("N", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        continueAdding = false;
+                    }
+                }
+            }
+
         }
     }
 }
