@@ -101,15 +101,6 @@ namespace App.Hobbits.Helpers
 
         }
 
-        /*
-        public void ListCourses()
-        {
-            courseService.Courses.ForEach(Console.WriteLine);
-        }
-        */
-
-
-
         public void SearchCourses(string query = null)
         {
             if (string.IsNullOrEmpty(query))
@@ -133,6 +124,64 @@ namespace App.Hobbits.Helpers
             }
         }
 
+        public void AddStudent()
+        {
+            Console.WriteLine("Enter the code for the course to add the student to:");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
+            if (selectedCourse != null)
+            {
+                studentService.Students.Where(s => !selectedCourse.Roster.Any(s2 => s2.Id == s.Id)).ToList().ForEach(Console.WriteLine);
+                if (studentService.Students.Any(s => !selectedCourse.Roster.Any(s2 => s2.Id == s.Id)))
+                {
+                    selection = Console.ReadLine() ?? string.Empty;
+                }
+
+                if (selection != null)
+                {
+                    var selectedId = int.Parse(selection);
+                    var selectedStudent = studentService.Students.FirstOrDefault(s => s.Id == selectedId);
+                    if (selectedStudent != null)
+                    {
+                        selectedCourse.Roster.Add(selectedStudent);
+                    }
+                }
+            }
+        }
+
+        public void RemoveStudent()
+        {
+            Console.WriteLine("Enter the code for the course to remove the student from:");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
+            if (selectedCourse != null)
+            {
+                selectedCourse.Roster.ForEach(Console.WriteLine);
+                if (selectedCourse.Roster.Any())
+                {
+                    selection = Console.ReadLine() ?? string.Empty;
+                } else
+                {
+                    selection = null;
+                }
+
+                if (selection != null)
+                {
+                    var selectedId = int.Parse(selection);
+                    var selectedStudent = studentService.Students.FirstOrDefault(s => s.Id == selectedId);
+                    if (selectedStudent != null)
+                    {
+                        selectedCourse.Roster.Remove(selectedStudent);
+                    }
+                }
+            }
+
+        }
+
         private void SetupRoster(Course c)
         {
             Console.WriteLine("Which students should be enrolled in this course? ('Q' to quit)");
@@ -141,15 +190,11 @@ namespace App.Hobbits.Helpers
             {
                 // Prints list
                 studentService.Students.Where(s => !c.Roster.Any(s2 => s2.Id == s.Id)).ToList().ForEach(Console.WriteLine);
-
-                // Initalizes variable
-                var selection = Console.ReadLine() ?? string.Empty;
-                /*
+                var selection = "Q";
                 if (studentService.Students.Any(s => !c.Roster.Any(s2 => s2.Id == s.Id)))
                 {
                     selection = Console.ReadLine() ?? string.Empty;
                 }
-                */
 
                 if (selection.Equals("Q", StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -159,12 +204,12 @@ namespace App.Hobbits.Helpers
                 {
                     var selectedId = int.Parse(selection);
                     var selectedStudent = studentService.Students.FirstOrDefault(s => s.Id == selectedId);
+
                     if (selectedStudent != null)
                     {
                         c.Roster.Add(selectedStudent);
                     }
                 }
-                Console.WriteLine("(Q to quit)");
             }
         }
 

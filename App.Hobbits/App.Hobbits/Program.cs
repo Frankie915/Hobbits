@@ -71,10 +71,12 @@ namespace MyApp
 
         static void ShowCourseMenu(CourseHelper courseHelper)
         {
-            Console.WriteLine("1. Add a new course");               // Course
-            Console.WriteLine("2. Update a course");                // Course
-            Console.WriteLine("3. List all courses");               // Course
-            Console.WriteLine("4. Search for a course");            // Course
+            Console.WriteLine("1. Add a new course");               
+            Console.WriteLine("2. Update a course");                
+            Console.WriteLine("3. Add a student to a course");     
+            Console.WriteLine("4. Remove a student from a course");
+            Console.WriteLine("5. List all courses");               
+            Console.WriteLine("6. Search for a course");           
 
             var input = Console.ReadLine();
             if (int.TryParse(input, out int result))
@@ -89,9 +91,17 @@ namespace MyApp
                 }
                 else if (result == 3)
                 {
-                    courseHelper.SearchCourses();
+                    courseHelper.AddStudent();
                 }
                 else if (result == 4)
+                {
+                    courseHelper.RemoveStudent();
+                }
+                else if (result == 5)
+                {
+                    courseHelper.SearchCourses();
+                }
+                else if (result == 6)
                 {
                     Console.WriteLine("Enter query: ");
                     var query = Console.ReadLine() ?? string.Empty;
