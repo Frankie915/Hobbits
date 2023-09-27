@@ -29,32 +29,44 @@ namespace App.Hobbits.Helpers
             PersonClassification classEnum = PersonClassification.Freshmen;
 
             Console.WriteLine("Which students should be enrolled in this course? ('Q' to quit)");
-            var roster = new List<Person>();
+            var roster = new List<Student>();
             bool continueAdding = true;
 
             // Add students
             while (continueAdding)
             {
+                Console.WriteLine("Top of while loop");
+                // Prints list
                 studentService.Students.Where(s => !roster.Any(s2 => s2.Id == s.Id)).ToList().ForEach(Console.WriteLine);
+                
+                // Initalizes variable
                 var selection = Console.ReadLine() ?? string.Empty;
+
+                /*
                 if (studentService.Students.Any(s => !roster.Any(s2 => s2.Id == s.Id)))
                 {
+                    Console.WriteLine("Block 1");
                     selection = Console.ReadLine() ?? string.Empty;
                 }
+                else 
+                */
                 if (selection.Equals("Q", StringComparison.InvariantCultureIgnoreCase))
                 {
+                    Console.WriteLine("Block 2");
                     continueAdding = false;
                 }
                 else
                 {
                     var selectedId = int.Parse(selection);
                     var selectedStudent = studentService.Students.FirstOrDefault(s => s.Id == selectedId);
-
-                    if(selectedStudent != null)
+                    Console.WriteLine("About to add student...");
+                    if (selectedStudent != null)
                     {
+                        Console.WriteLine("STUDENT ADDED");
                         roster.Add(selectedStudent);
                     }
                 }
+                Console.WriteLine("After if-statement");
             }
 
             Console.WriteLine("Would u like to add assignments? (Y/N)");
