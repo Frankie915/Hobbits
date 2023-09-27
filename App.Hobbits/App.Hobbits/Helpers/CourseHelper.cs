@@ -176,12 +176,10 @@ namespace App.Hobbits.Helpers
         public void UpdateCourseRecord()
         {
             Console.WriteLine("Enter the code for the course to update:");
-            SearchCourses();
-
+            courseService.Courses.ForEach(Console.WriteLine);
             var selection = Console.ReadLine();
 
             var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
-
             if (selectedCourse != null)
             {
                 CreateCourseRecord(selectedCourse);
@@ -195,6 +193,8 @@ namespace App.Hobbits.Helpers
             courseService.Courses.ForEach(Console.WriteLine);
         }
         */
+
+
 
         public void SearchCourses(string query = null)
         {
