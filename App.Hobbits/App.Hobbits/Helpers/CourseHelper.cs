@@ -20,93 +20,6 @@ namespace App.Hobbits.Helpers
 
         public void CreateCourseRecord(Course? selectedCourse = null)
         {
-            Console.WriteLine("What is the code of the course?");
-            var code = Console.ReadLine() ?? string.Empty;
-            Console.WriteLine("What is the name of the course?");
-            var name = Console.ReadLine() ?? string.Empty;
-            Console.WriteLine("What is the description of the course?");
-            var description = Console.ReadLine() ?? string.Empty;
-            PersonClassification classEnum = PersonClassification.Freshmen;
-
-            Console.WriteLine("Which students should be enrolled in this course? ('Q' to quit)");
-            var roster = new List<Student>();
-            bool continueAdding = true;
-
-            // Add students
-            while (continueAdding)
-            {
-                // Prints list
-                studentService.Students.Where(s => !roster.Any(s2 => s2.Id == s.Id)).ToList().ForEach(Console.WriteLine);
-                
-                // Initalizes variable
-                var selection = Console.ReadLine() ?? string.Empty;
-
-                /*
-                if (studentService.Students.Any(s => !roster.Any(s2 => s2.Id == s.Id)))
-                {
-                    Console.WriteLine("Block 1");
-                    selection = Console.ReadLine() ?? string.Empty;
-                }
-                else 
-                */
-                if (selection.Equals("Q", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    continueAdding = false;
-                }
-                else
-                {
-                    var selectedId = int.Parse(selection);
-                    var selectedStudent = studentService.Students.FirstOrDefault(s => s.Id == selectedId);
-                    if (selectedStudent != null)
-                    {
-                        roster.Add(selectedStudent);
-                    }
-                }
-                Console.WriteLine("(Q to quit)");
-            }
-
-            Console.WriteLine("Would u like to add assignments? (Y/N)");
-            var assignResponse = Console.ReadLine() ?? "N";
-            var assignments = new List<Assignment>();
-
-            // Add assignments
-            if (assignResponse.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
-            {
-                continueAdding = true;
-                while (continueAdding)
-                {
-                    // Name 
-                    Console.WriteLine("Name: ");
-                    var assignmentName = Console.ReadLine() ?? String.Empty;
-
-                    // Description
-                    Console.WriteLine("Description ");
-                    var assignmentDescription = Console.ReadLine() ?? String.Empty;
-
-                    // Total points
-                    Console.WriteLine("Total points: ");
-                    var totalPoints = decimal.Parse(Console.ReadLine() ?? "100");
-                    
-                    // Due Date
-                    Console.WriteLine("Due date: ");
-                    var dueDate = DateTime.Parse(Console.ReadLine() ?? "01/01/1900");
-
-                    assignments.Add(new Assignment
-                    {
-                        Name = assignmentName,
-                        Description = assignmentDescription,
-                        TotalAvailablePoints = totalPoints,
-                        DueDate = dueDate
-                    });
-
-                    Console.WriteLine("Add more assignments? (Y/N)");
-                    assignResponse = Console.ReadLine() ?? "N";
-                    if (assignResponse.Equals("N", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        continueAdding = false;
-                    }
-                }
-            }
 
             bool isNewCourse = false;
             if (selectedCourse == null)
@@ -115,14 +28,145 @@ namespace App.Hobbits.Helpers
                 selectedCourse = new Course();
             }
 
-            selectedCourse.Code = code;
-            selectedCourse.Name = name;
-            selectedCourse.Description = description;
-            selectedCourse.Roster = new List<Person>();
-            selectedCourse.Roster.AddRange(roster);
-            selectedCourse.Assignments = new List<Assignment>();
-            selectedCourse.Assignments.AddRange(assignments);
+            var choice = "Y";
+            if (!isNewCourse)
+            {
+                Console.WriteLine("Do you want to update the course code?");
+                choice = Console.ReadLine() ?? "N";
+            }
+            else
+            {
+                choice = "Y";
+            }
 
+            if (choice.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Console.WriteLine("What is the code of the course?");
+                selectedCourse.Code = Console.ReadLine() ?? string.Empty;
+            }
+            if (!isNewCourse) 
+            {
+                Console.WriteLine("Do you want to update the course name?");
+                choice = Console.ReadLine() ?? "N";
+            }
+            else
+            {
+                choice = "Y";
+            }
+            if (choice.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Console.WriteLine("What is the name of the course?");
+                selectedCourse.Name = Console.ReadLine() ?? string.Empty;
+            }
+
+            if (!isNewCourse)
+            {
+                Console.WriteLine("Do you want to update the course Description?");
+                choice = Console.ReadLine() ?? "N";
+            }
+            else
+            {
+                choice = "Y";
+            }
+            
+            if (choice.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Console.WriteLine("What is the description of the course?");
+                selectedCourse.Description = Console.ReadLine() ?? string.Empty;
+            }
+         
+            if (isNewCourse)
+            {
+                var roster = new List<Student>();
+                var assignments = new List<Assignment>();
+
+                //PersonClassification classEnum = PersonClassification.Freshmen;
+
+                Console.WriteLine("Which students should be enrolled in this course? ('Q' to quit)");
+                bool continueAdding = true;
+
+                // Add students
+                while (continueAdding)
+                {
+                    // Prints list
+                    studentService.Students.Where(s => !roster.Any(s2 => s2.Id == s.Id)).ToList().ForEach(Console.WriteLine);
+
+                    // Initalizes variable
+                    var selection = Console.ReadLine() ?? string.Empty;
+
+                    /*
+                    if (studentService.Students.Any(s => !roster.Any(s2 => s2.Id == s.Id)))
+                    {
+                        Console.WriteLine("Block 1");
+                        selection = Console.ReadLine() ?? string.Empty;
+                    }
+                    else 
+                    */
+                    if (selection.Equals("Q", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        continueAdding = false;
+                    }
+                    else
+                    {
+                        var selectedId = int.Parse(selection);
+                        var selectedStudent = studentService.Students.FirstOrDefault(s => s.Id == selectedId);
+                        if (selectedStudent != null)
+                        {
+                            roster.Add(selectedStudent);
+                        }
+                    }
+                    Console.WriteLine("(Q to quit)");
+                }
+
+                Console.WriteLine("Would u like to add assignments? (Y/N)");
+                var assignResponse = Console.ReadLine() ?? "N";
+                
+
+                // Add assignments
+                if (assignResponse.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    continueAdding = true;
+                    while (continueAdding)
+                    {
+                        // Name 
+                        Console.WriteLine("Name: ");
+                        var assignmentName = Console.ReadLine() ?? String.Empty;
+
+                        // Description
+                        Console.WriteLine("Description ");
+                        var assignmentDescription = Console.ReadLine() ?? String.Empty;
+
+                        // Total points
+                        Console.WriteLine("Total points: ");
+                        var totalPoints = decimal.Parse(Console.ReadLine() ?? "100");
+
+                        // Due Date
+                        Console.WriteLine("Due date: ");
+                        var dueDate = DateTime.Parse(Console.ReadLine() ?? "01/01/1900");
+
+                        assignments.Add(new Assignment
+                        {
+                            Name = assignmentName,
+                            Description = assignmentDescription,
+                            TotalAvailablePoints = totalPoints,
+                            DueDate = dueDate
+                        });
+
+                        Console.WriteLine("Add more assignments? (Y/N)");
+                        assignResponse = Console.ReadLine() ?? "N";
+                        if (assignResponse.Equals("N", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            continueAdding = false;
+                        }
+                    }
+                }
+
+                selectedCourse.Roster = new List<Person>();
+                selectedCourse.Roster.AddRange(roster);
+                selectedCourse.Assignments = new List<Assignment>();
+                selectedCourse.Assignments.AddRange(assignments);
+            }                      
+           
             if (isNewCourse)
             {
                 courseService.Add(selectedCourse);
