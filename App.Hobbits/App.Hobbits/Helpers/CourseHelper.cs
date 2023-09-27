@@ -35,7 +35,6 @@ namespace App.Hobbits.Helpers
             // Add students
             while (continueAdding)
             {
-                Console.WriteLine("Top of while loop");
                 // Prints list
                 studentService.Students.Where(s => !roster.Any(s2 => s2.Id == s.Id)).ToList().ForEach(Console.WriteLine);
                 
@@ -52,21 +51,18 @@ namespace App.Hobbits.Helpers
                 */
                 if (selection.Equals("Q", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    Console.WriteLine("Block 2");
                     continueAdding = false;
                 }
                 else
                 {
                     var selectedId = int.Parse(selection);
                     var selectedStudent = studentService.Students.FirstOrDefault(s => s.Id == selectedId);
-                    Console.WriteLine("About to add student...");
                     if (selectedStudent != null)
                     {
-                        Console.WriteLine("STUDENT ADDED");
                         roster.Add(selectedStudent);
                     }
                 }
-                Console.WriteLine("After if-statement");
+                Console.WriteLine("(Q to quit)");
             }
 
             Console.WriteLine("Would u like to add assignments? (Y/N)");
