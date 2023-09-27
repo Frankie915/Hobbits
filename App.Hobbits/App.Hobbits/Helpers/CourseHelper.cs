@@ -61,7 +61,7 @@ namespace App.Hobbits.Helpers
 
             if (!isNewCourse)
             {
-                Console.WriteLine("Do you want to update the course Description?");
+                Console.WriteLine("Do you want to update the course description?");
                 choice = Console.ReadLine() ?? "N";
             }
             else
