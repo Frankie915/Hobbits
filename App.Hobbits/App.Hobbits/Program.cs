@@ -16,60 +16,86 @@ namespace MyApp
 
             while (cont)
             {
-                Console.WriteLine("Choose an action:");
-                Console.WriteLine("1. Add a student enrollment");
-                Console.WriteLine("2. Update student enrollment");
-                Console.WriteLine("3. List all enrolled students");
-                Console.WriteLine("4. Search for student");
-                Console.WriteLine("5. Add a new course");
-                Console.WriteLine("6. Update a course");
-                Console.WriteLine("7. List all courses");
-                Console.WriteLine("8. Search for a course");
-                Console.WriteLine("9. Exit");
+                Console.WriteLine("1. Maintain Students");
+                Console.WriteLine("2. Maintain Courses");
+                Console.WriteLine("3. Exit");                           //Sys
                 var input = Console.ReadLine();
                 if (int.TryParse(input, out int result))
                 {
                     if (result == 1)
                     {
-                        studentHelper.CreateStudentRecord();
+                        ShowStudentMenu(studentHelper);
                     }
                     else if (result == 2)
                     {
-                        studentHelper.UpdateStudentRecord();
+                        ShowCourseMenu(courseHelper);
                     }
                     else if (result == 3)
-                    {
-                        studentHelper.ListStudents();
-                    }
-                    else if (result == 4)
-                    {
-                        studentHelper.SearchStudents();
-                    }
-                    else if (result == 5)
-                    {
-                        courseHelper.CreateCourseRecord();
-                    }
-                    else if (result == 6)
-                    {
-                        courseHelper.UpdateCourseRecord();
-                    }
-                    else if (result == 7)
-                    {
-                        //courseHelper.ListCourses();
-                        courseHelper.SearchCourses();
-                    }
-                    else if (result == 8)
-                    {
-                        Console.WriteLine("Enter query: ");
-                        var query = Console.ReadLine() ?? string.Empty;
-                        courseHelper.SearchCourses();
-                    }
-                    else if (result == 9)
                     {
                         cont = false;
                     }
                     int.TryParse(input, out result);
 
+                }
+            }
+        }
+
+        static void ShowStudentMenu(StudentHelper studentHelper)
+        {
+            Console.WriteLine("1. Add a student enrollment");       // Student
+            Console.WriteLine("2. Update student enrollment");      // Student
+            Console.WriteLine("3. List all enrolled students");     // Student
+            Console.WriteLine("4. Search for student");             // Student
+
+            var input = Console.ReadLine();
+            if (int.TryParse(input, out int result))
+            {
+                if (result == 1)
+                {
+                    studentHelper.CreateStudentRecord();
+                }
+                else if (result == 2)
+                {
+                    studentHelper.UpdateStudentRecord();
+                }
+                else if (result == 3)
+                {
+                    studentHelper.ListStudents();
+                }
+                else if (result == 4)
+                {
+                    studentHelper.SearchStudents();
+                }
+            }
+        }
+
+        static void ShowCourseMenu(CourseHelper courseHelper)
+        {
+            Console.WriteLine("1. Add a new course");               // Course
+            Console.WriteLine("2. Update a course");                // Course
+            Console.WriteLine("3. List all courses");               // Course
+            Console.WriteLine("4. Search for a course");            // Course
+
+            var input = Console.ReadLine();
+            if (int.TryParse(input, out int result))
+            {
+                if (result == 1)
+                {
+                    courseHelper.CreateCourseRecord();
+                }
+                else if (result == 2)
+                {
+                    courseHelper.UpdateCourseRecord();
+                }
+                else if (result == 3)
+                {
+                    courseHelper.SearchCourses();
+                }
+                else if (result == 4)
+                {
+                    Console.WriteLine("Enter query: ");
+                    var query = Console.ReadLine() ?? string.Empty;
+                    courseHelper.SearchCourses();
                 }
             }
         }
