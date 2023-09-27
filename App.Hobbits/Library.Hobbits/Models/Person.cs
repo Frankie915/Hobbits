@@ -15,9 +15,4 @@
             return $"[{Id}] {Name}";
         }
     }
-
-    public enum PersonClassification
-    {
-        Freshmen, Sophomore, Junior, Senior
-    }
 }

@@ -18,4 +18,9 @@ namespace Library.Hobbits.Models
             return $"[{Id}] {Name} - {Classification}";
         }
     }
+
+    public enum PersonClassification
+    {
+        Freshmen, Sophomore, Junior, Senior
+    }
 }
