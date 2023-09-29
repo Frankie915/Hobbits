@@ -5,13 +5,13 @@ namespace Library.Hobbits.Services
 {
     public class StudentService
     {
-        private List<Student> studentList;
+        private List<Person> studentList;
 
         private static StudentService? _instance;
 
         public StudentService() 
         { 
-            studentList = new List<Student>();
+            studentList = new List<Person>();
         }
 
         public static StudentService Current
@@ -27,12 +27,12 @@ namespace Library.Hobbits.Services
             }
         }
  
-        public void Add(Student student) 
+        public void Add(Person student) 
         { 
             studentList.Add(student);
         }
 
-        public List<Student> Students
+        public List<Person> Students
         {
             get
             {
@@ -40,7 +40,7 @@ namespace Library.Hobbits.Services
             }
         }
 
-        public IEnumerable<Student> Search(string query) 
+        public IEnumerable<Person> Search(string query) 
         {
             return studentList.Where(s => s.Name.ToUpper().Contains(query.ToUpper()));
         }
