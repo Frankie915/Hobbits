@@ -337,7 +337,7 @@ namespace App.Hobbits.Helpers
                 Name = name,
                 Description = description
             };
-            Console.WriteLine("Would you like to add content?");
+            Console.WriteLine("Would you like to add content? (Y/N)");
             var choice = Console.ReadLine() ?? "N";
             while (choice.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
             {
