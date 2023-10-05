@@ -9,5 +9,11 @@
         public Module() { 
             Content = new List<ContentItem>();
         }
+
+        public override string ToString()
+        {
+            return $"{Name}: {Description}\n" + 
+                $"\t{string.Join("\n\t", Content.Select(c => c.ToString()).ToArray())}"; 
+        }
     }
 }
