@@ -79,8 +79,9 @@ namespace MyApp
             Console.WriteLine("6. Update assignment");
             Console.WriteLine("7. Remove an assignment");
             Console.WriteLine("8. Add a modules to a course");
-            Console.WriteLine("9. List all courses");               
-            Console.WriteLine("10. Search for a course");           
+            Console.WriteLine("9. Remove a module from a course");
+            Console.WriteLine("10. List all courses");               
+            Console.WriteLine("11. Search for a course");           
 
             var input = Console.ReadLine();
             if (int.TryParse(input, out int result))
@@ -119,9 +120,13 @@ namespace MyApp
                 }
                 else if (result == 9)
                 {
-                    courseHelper.SearchCourses();
+                    courseHelper.RemoveModule();
                 }
                 else if (result == 10)
+                {
+                    courseHelper.SearchCourses();
+                }
+                else if (result == 11)
                 {
                     Console.WriteLine("Enter query: ");
                     var query = Console.ReadLine() ?? string.Empty;
