@@ -383,8 +383,6 @@ namespace App.Hobbits.Helpers
             }
         }
 
-
-
         private void SetupRoster(Course c)
         {
             Console.WriteLine("Which students should be enrolled in this course? ('Q' to quit)");
