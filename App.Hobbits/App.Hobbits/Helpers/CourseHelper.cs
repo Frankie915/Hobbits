@@ -41,8 +41,8 @@ namespace App.Hobbits.Helpers
 
             if (choice.Equals("Y", StringComparison.InvariantCultureIgnoreCase))
             {
-                Console.WriteLine("What is the code of the course?");
-                selectedCourse.Code = Console.ReadLine() ?? string.Empty;
+                Console.WriteLine("What is the prefix of the course?");
+                selectedCourse.Prefix = Console.ReadLine().ToUpper() ?? string.Empty;
             }
             if (!isNewCourse) 
             {
@@ -98,7 +98,7 @@ namespace App.Hobbits.Helpers
 
         }
 
-        public void SearchCourses(string query = null)
+        public void SearchCourses(string? query = null)
         {
             if (string.IsNullOrEmpty(query))
             {
