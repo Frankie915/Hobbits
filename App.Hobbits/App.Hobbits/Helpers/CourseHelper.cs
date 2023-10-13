@@ -79,7 +79,7 @@ namespace App.Hobbits.Helpers
             { 
                 SetupRoster(selectedCourse);
                 SetupAssignments(selectedCourse);
-                SetupModules(selectedCourse); 
+                SetupModules(selectedCourse);
                 courseService.Add(selectedCourse);
             }                      
         }
@@ -383,6 +383,19 @@ namespace App.Hobbits.Helpers
             }
         }
 
+        public void AddAnnouncement()
+        {
+            Console.WriteLine("Enter the code for the course to add the announcement to:");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
+            if (selectedCourse != null)
+            {
+                selectedCourse.Announcements.Add(CreateAnnouncement(selectedCourse));
+            }
+        }
+
         private void SetupRoster(Course c)
         {
             Console.WriteLine("Which students should be enrolled in this course? ('Q' to quit)");
@@ -454,6 +467,22 @@ namespace App.Hobbits.Helpers
                     }
                 }
             }
+        }
+
+        private Announcement CreateAnnouncement(Course c)
+        {
+            Console.WriteLine("Enter the name of the announcement:");
+            var name = Console.ReadLine();
+
+            Console.WriteLine("Enter the description of the announcement:");
+            var description = Console.ReadLine();
+
+            return new Announcement 
+            { 
+                Name = name,    
+                Description = description
+            };
+
         }
 
         private Module CreateModule(Course c)
