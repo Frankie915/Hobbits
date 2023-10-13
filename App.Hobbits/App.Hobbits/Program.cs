@@ -81,8 +81,9 @@ namespace MyApp
             Console.WriteLine("8. Add a modules to a course");
             Console.WriteLine("9. Remove a module from a course");
             Console.WriteLine("10. Update a module in a course");
-            Console.WriteLine("11. List all courses");               
-            Console.WriteLine("12. Search for a course");           
+            Console.WriteLine("11. Add an announcement to a course");
+            Console.WriteLine("12. List all courses");               
+            Console.WriteLine("13. Search for a course");           
 
             var input = Console.ReadLine();
             if (int.TryParse(input, out int result))
@@ -129,9 +130,13 @@ namespace MyApp
                 }
                 else if (result == 11)
                 {
-                    courseHelper.SearchCourses();
+                    courseHelper.AddAnnouncement();
                 }
                 else if (result == 12)
+                {
+                    courseHelper.SearchCourses();
+                }
+                else if (result == 13)
                 {
                     Console.WriteLine("Enter query: ");
                     var query = Console.ReadLine() ?? string.Empty;
