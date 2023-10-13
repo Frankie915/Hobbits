@@ -396,6 +396,27 @@ namespace App.Hobbits.Helpers
             }
         }
 
+        public void RemoveAnnouncement()
+        {
+            Console.WriteLine("Enter the code for the course:");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
+            if (selectedCourse != null)
+            {
+                Console.WriteLine("Choose an announcement to remove:");
+                selectedCourse.Announcements.ForEach(Console.WriteLine);
+                var selectionStr = Console.ReadLine() ?? string.Empty;
+                var selectionInt = int.Parse(selectionStr);
+                var selectedAnnouncement = selectedCourse.Announcements.FirstOrDefault(a => a.Id == selectionInt);
+                if (selectedAnnouncement != null)
+                {
+                    selectedCourse.Announcements.Remove(selectedAnnouncement);
+                }
+            }
+        }
+
         private void SetupRoster(Course c)
         {
             Console.WriteLine("Which students should be enrolled in this course? ('Q' to quit)");
