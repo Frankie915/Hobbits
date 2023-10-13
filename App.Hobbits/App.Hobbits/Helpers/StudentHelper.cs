@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyApp;
 
 namespace App.Hobbits.Helpers
 {   
@@ -12,11 +13,14 @@ namespace App.Hobbits.Helpers
     {
         private StudentService studentService;
         private CourseService courseService;
-
+        private ListNavigator<Person> studentNavigator;
+        
         public StudentHelper()
         {
             studentService = StudentService.Current;
             courseService = CourseService.Current;
+
+            studentNavigator = new ListNavigator<Person>(studentService.Students, 2);
         }
 
         public void CreateStudentRecord(Person? selectedStudent = null)
@@ -115,17 +119,65 @@ namespace App.Hobbits.Helpers
             }
         }
 
+        private void NavigateStudents(string query = null)
+        {
+            ListNavigator<Person>? currentNavigator = null;
+            if (query == null)
+            {
+                currentNavigator = studentNavigator;
+            }
+            else
+            {
+                currentNavigator = new ListNavigator<Person>(studentService.Search(query).ToList(), 2);
+            }
+
+            bool keepPaging = true;
+            while (keepPaging)
+            {
+                foreach (var pair in currentNavigator.GetCurrentPage())
+                {
+                    Console.WriteLine($"{pair.Key}. {pair.Value}");
+                }
+
+                if (currentNavigator.HasPreviousPage)
+                {
+                    Console.WriteLine("P. Previous Page");
+                }
+                if (currentNavigator.HasNextPage)
+                {
+                    Console.WriteLine("N. Next Page");
+                }
+
+                Console.WriteLine("Make a selection:");
+                var selectionStr = Console.ReadLine();
+
+                if ((selectionStr?.Equals("P", StringComparison.InvariantCultureIgnoreCase) ?? false)
+                   || (selectionStr?.Equals("N", StringComparison.InvariantCultureIgnoreCase) ?? false))
+                {
+                    //Navigate through pages
+                    if (selectionStr.Equals("P", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        currentNavigator.GoBackward();
+                    }
+                    else if (selectionStr.Equals("N", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        currentNavigator.GoForward();
+                    }
+                }
+                else
+                {
+                    var selectionInt = int.Parse(selectionStr ?? "0");
+
+                    Console.WriteLine("Student Course List:");
+                    courseService.Courses.Where(c => c.Roster.Any(s => s.Id == selectionInt)).ToList().ForEach(Console.WriteLine);
+                    keepPaging = false;
+                }
+            }
+        }
+
         public void ListStudents()
         {
-            studentService.Students.ForEach(Console.WriteLine);
-
-            Console.WriteLine("Select a student:");
-            var selectionStr = Console.ReadLine();
-            var selectionInt = int.Parse(selectionStr ?? "0");
-
-            Console.WriteLine("Student Course List:");
-            courseService.Courses.Where(c => c.Roster.Any(s => s.Id == selectionInt)).ToList().ForEach(Console.WriteLine);
-
+            NavigateStudents();
         }
 
         public void SearchStudents() 
@@ -133,12 +185,15 @@ namespace App.Hobbits.Helpers
             Console.WriteLine("Enter query: ");
             var query = Console.ReadLine() ?? string.Empty;
 
+            /*
             studentService.Search(query).ToList().ForEach(Console.WriteLine);
             var selectionStr = Console.ReadLine();
             var selectionInt = int.Parse(selectionStr ?? "0");
 
             Console.WriteLine("Student Course List:");
             courseService.Courses.Where(c => c.Roster.Any(s => s.Id == selectionInt)).ToList().ForEach(Console.WriteLine);
+            */
+            NavigateStudents(query);
         }
 
     }
