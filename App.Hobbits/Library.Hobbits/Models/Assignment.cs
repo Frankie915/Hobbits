@@ -5,22 +5,19 @@ namespace Library.Hobbits.Models
     public class Assignment
     {
         private static int lastId = 0;
-        private int id = 0;
         public int Id
         {
-            get
-            {
-                if (id == 0)
-                {
-                    id = ++lastId;
-                }
-                return id;
-            }
+            get; private set;
         }
         public string? Name { get; set; }
         public string Description { get; set; }
         public decimal TotalAvailablePoints { get; set; }
         public DateTime DueDate { get; set; }
+
+        public Assignment()
+        {
+            Id = ++lastId;
+        }
 
         public override string ToString()
         {
