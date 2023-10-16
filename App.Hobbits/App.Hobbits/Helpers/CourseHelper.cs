@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+//786
 namespace App.Hobbits.Helpers
 {
 	public class CourseHelper
@@ -123,11 +123,8 @@ namespace App.Hobbits.Helpers
 
         public void AddStudent()
         {
-            Console.WriteLine("Enter the code for the course to add the student to:");
-            courseService.Courses.ForEach(Console.WriteLine);
-            var selection = Console.ReadLine();
-
-            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
+            var selection = "";
+            var selectedCourse = SelectCourse();
             if (selectedCourse != null)
             {
                 studentService.Students.Where(s => !selectedCourse.Roster.Any(s2 => s2.Id == s.Id)).ToList().ForEach(Console.WriteLine);
@@ -148,83 +145,58 @@ namespace App.Hobbits.Helpers
             }
         }
 
-        public void RemoveStudent()
-        {
-            Console.WriteLine("Enter the code for the course to remove the student from:");
-            courseService.Courses.ForEach(Console.WriteLine);
-            var selection = Console.ReadLine();
-
-            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
-            if (selectedCourse != null)
-            {
-                selectedCourse.Roster.ForEach(Console.WriteLine);
-                if (selectedCourse.Roster.Any())
-                {
-                    selection = Console.ReadLine() ?? string.Empty;
-                } else
-                {
-                    selection = null;
-                }
-
-                if (selection != null)
-                {
-                    var selectedId = int.Parse(selection);
-                    var selectedStudent = studentService.Students.FirstOrDefault(s => s.Id == selectedId);
-                    if (selectedStudent != null)
-                    {
-                        selectedCourse.Roster.Remove(selectedStudent);
-                    }
-                }
-            }
-
-        }
-
         public void AddAssignment()
         {
-            Console.WriteLine("Enter the code for the course to add the assignment to:");
-            courseService.Courses.ForEach(Console.WriteLine);
-            var selection = Console.ReadLine();
-
-            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
+            var selectedCourse = SelectCourse();
             if (selectedCourse != null)
             {
                 CreateAssignmentWithGroup(selectedCourse);
             }
         }
 
-        public void RemoveAssignment()
+        public void AddModule()
         {
-            Console.WriteLine("Enter the code for the course:");
-            courseService.Courses.ForEach(Console.WriteLine);
-            var selection = Console.ReadLine();
-
-            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
+            var selectedCourse = SelectCourse();
             if (selectedCourse != null)
             {
-                Console.WriteLine("Choose an assignment to remove:");
-                selectedCourse.Assignments.ToList().ForEach(Console.WriteLine);
-                var selectionStr = Console.ReadLine() ?? string.Empty;
-                var selectionInt = int.Parse(selectionStr);
-
-                var selectedGroup = selectedCourse.AssignmentGroups.FirstOrDefault(ag => ag.Assignments.Any(a => a.Id == selectionInt));
-                if (selectedGroup != null)
-                {
-                    var selectedAssignment = selectedGroup.Assignments.FirstOrDefault(a => a.Id == selectionInt);
-                    if (selectedAssignment != null)
-                    {
-                        var index = selectedGroup.Assignments.Remove(selectedAssignment);
-                    }
-                }
+                selectedCourse.Modules.Add(CreateModule(selectedCourse));
             }
         }
 
+        public void AddSubmission()
+        {
+            var selectedCourse = SelectCourse();
+            if (selectedCourse != null)
+            {
+                Console.WriteLine("Enter the id for the student");
+                selectedCourse.Roster.ForEach(Console.WriteLine);
+                var selectedStudentId = int.Parse(Console.ReadLine() ?? "0");
+                var selectedStudent = selectedCourse.Roster.FirstOrDefault(s => s.Id == selectedStudentId);
+
+                Console.WriteLine("Enter the id for the assignment");
+                selectedCourse.Assignments.ToList().ForEach(Console.WriteLine);
+                var selectedAssignmentId = int.Parse(Console.ReadLine() ?? "0");
+                var selectedAssignment = selectedCourse.Assignments.FirstOrDefault(a => a.Id == selectedAssignmentId);
+
+                CreateSubmission(selectedCourse, selectedStudentId, selectedAssignmentId);
+
+            }
+        }
+
+        public void AddAnnouncement()
+        {
+            var selectedCourse = SelectCourse();
+            if (selectedCourse != null)
+            {
+                selectedCourse.Announcements.Add(CreateAnnouncement(selectedCourse));
+            }
+        }
+
+
+
         public void UpdateAssignment()
         {
-            Console.WriteLine("Enter the code for the course:");
-            courseService.Courses.ForEach(Console.WriteLine);
-            var selection = Console.ReadLine();
-
-            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
+            var selectedCourse = SelectCourse();
             if (selectedCourse != null)
             {
                 Console.WriteLine("Choose an assignment to update:");
@@ -245,51 +217,12 @@ namespace App.Hobbits.Helpers
                 }
             }
         }
- 
-        public void AddModule()
-        {
-            Console.WriteLine("Enter the code for the course to add the module to:");
-            courseService.Courses.ForEach(Console.WriteLine);
-            var selection = Console.ReadLine();
-
-            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
-            if (selectedCourse != null)
-            {
-                selectedCourse.Modules.Add(CreateModule(selectedCourse));
-            }
-        }
-
-        public void RemoveModule()
-        {
-            Console.WriteLine("Enter the code for the course:");
-            courseService.Courses.ForEach(Console.WriteLine);
-            var selection = Console.ReadLine();
-
-            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
-
-            if (selectedCourse != null)
-            {
-                Console.WriteLine("Choose an module to remove:");
-                selectedCourse.Modules.ForEach(Console.WriteLine);
-                var selectionStr = Console.ReadLine() ?? string.Empty;
-                var selectionInt = int.Parse(selectionStr);
-                var selectedModule = selectedCourse.Modules.FirstOrDefault(m => m.Id == selectionInt);
-                if (selectedModule != null)
-                {
-                    selectedCourse.Modules.Remove(selectedModule);
-                }
-            }
-        }
 
         public void UpdateModule()
         {
-            Console.WriteLine("Enter the code for the course:");
-            courseService.Courses.ForEach(Console.WriteLine);
-            var selection = Console.ReadLine();
+            var selectedCourse = SelectCourse();
 
-            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
-            
-            if(selectedCourse != null && selectedCourse.Modules.Any())
+            if (selectedCourse != null && selectedCourse.Modules.Any())
             {
                 Console.WriteLine("Enter the id for the module to update:");
                 selectedCourse.Modules.ForEach(Console.WriteLine);
@@ -393,47 +326,9 @@ namespace App.Hobbits.Helpers
             }
         }
 
-        public void AddAnnouncement()
-        {
-            Console.WriteLine("Enter the code for the course to add the announcement to:");
-            courseService.Courses.ForEach(Console.WriteLine);
-            var selection = Console.ReadLine();
-
-            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
-            if (selectedCourse != null)
-            {
-                selectedCourse.Announcements.Add(CreateAnnouncement(selectedCourse));
-            }
-        }
-
-        public void RemoveAnnouncement()
-        {
-            Console.WriteLine("Enter the code for the course:");
-            courseService.Courses.ForEach(Console.WriteLine);
-            var selection = Console.ReadLine();
-
-            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
-            if (selectedCourse != null)
-            {
-                Console.WriteLine("Choose an announcement to remove:");
-                selectedCourse.Announcements.ForEach(Console.WriteLine);
-                var selectionStr = Console.ReadLine() ?? string.Empty;
-                var selectionInt = int.Parse(selectionStr);
-                var selectedAnnouncement = selectedCourse.Announcements.FirstOrDefault(a => a.Id == selectionInt);
-                if (selectedAnnouncement != null)
-                {
-                    selectedCourse.Announcements.Remove(selectedAnnouncement);
-                }
-            }
-        }
-
         public void UpdateAnnouncement()
         {
-            Console.WriteLine("Enter the code for the course:");
-            courseService.Courses.ForEach(Console.WriteLine);
-            var selection = Console.ReadLine();
-
-            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
+            var selectedCourse = SelectCourse();
             if (selectedCourse != null)
             {
                 Console.WriteLine("Choose an announcement to update:");
@@ -450,31 +345,7 @@ namespace App.Hobbits.Helpers
                     selectedAnnouncement.Description = Console.ReadLine();
                 }
             }
-        }
-
-        public void AddSubmission()
-        {
-            Console.WriteLine("Enter the code for the course to add the assignment to:");
-            courseService.Courses.ForEach(Console.WriteLine);
-            var selection = Console.ReadLine();
-
-            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
-            if (selectedCourse != null)
-            {
-                Console.WriteLine("Enter the id for the student");
-                selectedCourse.Roster.ForEach(Console.WriteLine);
-                var selectedStudentId = int.Parse(Console.ReadLine() ?? "0");
-                var selectedStudent = selectedCourse.Roster.FirstOrDefault(s => s.Id == selectedStudentId);
-
-                Console.WriteLine("Enter the id for the assignment");
-                selectedCourse.Assignments.ToList().ForEach(Console.WriteLine);
-                var selectedAssignmentId = int.Parse(Console.ReadLine() ?? "0");
-                var selectedAssignment = selectedCourse.Assignments.FirstOrDefault(a => a.Id == selectedAssignmentId);
-
-                CreateSubmission(selectedCourse, selectedStudentId, selectedAssignmentId);
-
-            }
-        }
+        }      
 
         private void SetupRoster(Course c)
         {
@@ -780,6 +651,105 @@ namespace App.Hobbits.Helpers
                     Content = content
                 }
             );
+        }
+
+        private Course SelectCourse()
+        {
+            Console.WriteLine("Enter the code for the course:");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            return courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        private void RemoveEntity(List<T> list)
+        {
+            var selectedCourse = SelectCourse();
+
+            if (selectedCourse != null)
+            {
+                Console.WriteLine("Choose an module to remove:");
+                list.ForEach(Console.WriteLine);
+                var selectionStr = Console.ReadLine() ?? string.Empty;
+                var selectionInt = int.Parse(selectionStr);
+
+                var selectedModule = list.FirstOrDefault(m => m.Id == selectionInt);
+                if (selectedModule != null)
+                {
+                    list.Remove(selectedModule);
+                }
+            }
+        }
+
+        public void RemoveStudent()
+        {
+            var selectedCourse = SelectCourse();
+            if (selectedCourse != null)
+            {
+                selectedCourse.Roster.ForEach(Console.WriteLine);
+                if (selectedCourse.Roster.Any())
+                {
+                    selection = Console.ReadLine() ?? string.Empty;
+                }
+                else
+                {
+                    selection = null;
+                }
+
+                if (selection != null)
+                {
+                    var selectedId = int.Parse(selection);
+                    var selectedStudent = studentService.Students.FirstOrDefault(s => s.Id == selectedId);
+                    if (selectedStudent != null)
+                    {
+                        selectedCourse.Roster.Remove(selectedStudent);
+                    }
+                }
+            }
+        }
+
+        public void RemoveAssignment()
+        {
+            var selectedCourse = SelectCourse();
+            if (selectedCourse != null)
+            {
+                Console.WriteLine("Choose an assignment to remove:");
+                selectedCourse.Assignments.ToList().ForEach(Console.WriteLine);
+                var selectionStr = Console.ReadLine() ?? string.Empty;
+                var selectionInt = int.Parse(selectionStr);
+
+                var selectedGroup = selectedCourse.AssignmentGroups.FirstOrDefault(ag => ag.Assignments.Any(a => a.Id == selectionInt));
+                if (selectedGroup != null)
+                {
+                    var selectedAssignment = selectedGroup.Assignments.FirstOrDefault(a => a.Id == selectionInt);
+                    if (selectedAssignment != null)
+                    {
+                        var index = selectedGroup.Assignments.Remove(selectedAssignment);
+                    }
+                }
+            }
+        }
+
+        public void RemoveModule()
+        {
+            RemoveEntity(SelectCourse());
+        }
+
+        public void RemoveAnnouncement()
+        {
+            var selectedCourse = SelectCourse();
+            if (selectedCourse != null)
+            {
+                Console.WriteLine("Choose an announcement to remove:");
+                selectedCourse.Announcements.ForEach(Console.WriteLine);
+                var selectionStr = Console.ReadLine() ?? string.Empty;
+                var selectionInt = int.Parse(selectionStr);
+                var selectedAnnouncement = selectedCourse.Announcements.FirstOrDefault(a => a.Id == selectionInt);
+                if (selectedAnnouncement != null)
+                {
+                    selectedCourse.Announcements.Remove(selectedAnnouncement);
+                }
+            }
         }
     }
 }
