@@ -454,7 +454,7 @@ namespace App.Hobbits.Helpers
 
         public void AddSubmission()
         {
-            Console.WriteLine("Enter the code for the course to add the assignment to:");
+            Console.WriteLine("Enter the code for the course to add the submission to:");
             courseService.Courses.ForEach(Console.WriteLine);
             var selection = Console.ReadLine();
 
@@ -473,6 +473,19 @@ namespace App.Hobbits.Helpers
 
                 CreateSubmission(selectedCourse, selectedStudentId, selectedAssignmentId);
 
+            }
+        }
+
+        public void ListSubmission()
+        {
+            Console.WriteLine("Enter the code for the course to add the assignment to:");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
+            if (selectedCourse != null)
+            {
+                selectedCourse.Submissions.ForEach(Console.WriteLine);
             }
         }
 
