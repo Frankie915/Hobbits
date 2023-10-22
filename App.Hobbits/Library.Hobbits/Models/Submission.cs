@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace Library.Hobbits.Models
 {
@@ -10,14 +11,19 @@ namespace Library.Hobbits.Models
             get; private set;
         }
 
-        public int StudentId { get; set; }
-        public int AssignmentId { get; set; }
+        public Student student { get; set; }
+        public Assignment assignment { get; set; }
         public string Content { get; set; }
 
         public Submission()
         {
             Id = ++lastId;
             Content = string.Empty;
+        }
+
+        public override string ToString()
+        {
+            return $"[{Id}]{student.Name}: {assignment}";
         }
     }
 }
