@@ -476,7 +476,7 @@ namespace App.Hobbits.Helpers
             }
         }
 
-        public void ListSubmission()
+        public void ListSubmissions()
         {
             Console.WriteLine("Enter the code for the course to add the assignment to:");
             courseService.Courses.ForEach(Console.WriteLine);
@@ -782,17 +782,19 @@ namespace App.Hobbits.Helpers
 
         public void CreateSubmission(Course c, Student student, Assignment assignment)
         {
-            if (student == null || assignment == null) {
+            if (student == null || assignment == null) 
+            {
                 return;
             }
+
             Console.WriteLine("What is the content of the submission?");
             var content = Console.ReadLine();
             c.Submissions.Add(
                 new Submission
                 {
-                    Student = student,
-                    Assignment = assignment,
-                    Content = content
+                    student = student,
+                    assignment = assignment,
+                    Content = content ?? string.Empty
                 }
             );
         }
