@@ -462,7 +462,7 @@ namespace App.Hobbits.Helpers
             if (selectedCourse != null)
             {
                 Console.WriteLine("Enter the id for the student");
-                selectedCourse.Roster.ForEach(Console.WriteLine);
+                selectedCourse.Roster.Where(r => r is Student).ToList().ForEach(Console.WriteLine);
                 var selectedStudentId = int.Parse(Console.ReadLine() ?? "0");
                 var selectedStudent = selectedCourse.Roster.FirstOrDefault(s => s.Id == selectedStudentId);
 
@@ -471,7 +471,7 @@ namespace App.Hobbits.Helpers
                 var selectedAssignmentId = int.Parse(Console.ReadLine() ?? "0");
                 var selectedAssignment = selectedCourse.Assignments.FirstOrDefault(a => a.Id == selectedAssignmentId);
 
-                CreateSubmission(selectedCourse, selectedStudentId, selectedAssignmentId);
+                CreateSubmission(selectedCourse, selectedStudent as Student, selectedAssignment);
 
             }
         }
@@ -780,16 +780,18 @@ namespace App.Hobbits.Helpers
             };
         }
 
-        public void CreateSubmission(Course c, int studentId, int assignmentId)
+        public void CreateSubmission(Course c, Student student, Assignment assignment)
         {
-
+            if (student == null || assignment == null) {
+                return;
+            }
             Console.WriteLine("What is the content of the submission?");
             var content = Console.ReadLine();
             c.Submissions.Add(
                 new Submission
                 {
-                    StudentId = studentId,
-                    AssignmentId = assignmentId,
+                    Student = student,
+                    Assignment = assignment,
                     Content = content
                 }
             );
