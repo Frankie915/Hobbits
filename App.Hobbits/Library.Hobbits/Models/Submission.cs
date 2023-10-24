@@ -15,15 +15,18 @@ namespace Library.Hobbits.Models
         public Assignment assignment { get; set; }
         public string Content { get; set; }
 
+        public decimal Grade { get; set; }
+
         public Submission()
         {
             Id = ++lastId;
             Content = string.Empty;
+            Grade = 100;
         }
 
         public override string ToString()
         {
-            return $"[{Id}] {student.Name}: {assignment}";
+            return $"[{Id}] ({Grade}) {student.Name}: {assignment.Name}";
         }
     }
 }

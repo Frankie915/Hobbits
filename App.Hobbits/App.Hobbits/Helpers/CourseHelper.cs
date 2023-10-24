@@ -526,6 +526,23 @@ namespace App.Hobbits.Helpers
             }
         }
 
+        public void GradeSubmission()
+        {
+            Console.WriteLine("Enter the code for the course to add the submission to:");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
+            if (selectedCourse != null)
+            {
+                selectedCourse.Submissions.ForEach(Console.WriteLine);
+                var selectedId = int.Parse(Console.ReadLine() ?? "0");
+
+                Console.WriteLine("Enter grade:");
+                selectedCourse.Submissions.FirstOrDefault(s => s.Id == selectedId).Grade = decimal.Parse(Console.ReadLine() ?? "0");
+            }
+        }
+
         private void SetupRoster(Course c)
         {
             Console.WriteLine("Which students should be enrolled in this course? ('Q' to quit)");
