@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace App.Hobbits.Helpers
@@ -541,6 +542,81 @@ namespace App.Hobbits.Helpers
                 Console.WriteLine("Enter grade:");
                 selectedCourse.Submissions.FirstOrDefault(s => s.Id == selectedId).Grade = decimal.Parse(Console.ReadLine() ?? "0");
             }
+        }
+
+        public void GetStudentGrade()
+        {
+            Console.WriteLine("Enter the code for the course to add the assignment to:");
+            courseService.Courses.ForEach(Console.WriteLine);
+            var selection = Console.ReadLine();
+
+            var selectedCourse = courseService.Courses.FirstOrDefault(s => s.Code.Equals(selection, StringComparison.InvariantCultureIgnoreCase));
+            if (selectedCourse != null)
+            {
+                Console.WriteLine("Enter the id for the student:");
+                selectedCourse.Roster.Where(r => r is Student).ToList().ForEach(Console.WriteLine);
+                var selectedStudentId = int.Parse(Console.ReadLine() ?? "0");
+
+                var weightedAverage = 0M;
+                foreach (var group in selectedCourse.AssignmentGroups) { 
+                    
+                    var submissions = selectedCourse.Submissions
+                        .Where(s => s.student.Id == selectedStudentId
+                            && group.Assignments.Select(a => a.Id).Contains(s.assignment.Id));
+                    if (submissions.Any())
+                    {
+                        weightedAverage += submissions.Select(selectedStudentId => selectedStudentId.Grade).Average() * group.Weight;
+                    }
+                }
+
+                Console.WriteLine($"Student Grade: ({GetLetterGrade(weightedAverage)}) {weightedAverage}");
+
+            }
+        }
+
+        public string GetLetterGrade(decimal grade)
+        {
+            if (grade >= 93)
+            {
+                return "A";
+            }
+            else if (grade < 93 && grade >= 90)
+            {
+                return "A-";
+            }
+            else if (grade < 90 && grade >= 87)
+            {
+                return "B+";
+            }
+            else if (grade < 87 && grade >= 83)
+            {
+                return "B";
+            }
+            else if (grade < 83 && grade >= 80)
+            {
+                return "B-";
+            }
+            else if (grade < 80 && grade >= 77)
+            {
+                return "C+";
+            }
+            else if (grade < 77 && grade >= 73)
+            {
+                return "C";
+            }
+            else if (grade < 73 && grade >= 70)
+            {
+                return "C-";
+            }
+            else if (grade < 70 && grade >= 60)
+            {
+                return "D";
+            }
+            else
+            {
+                return "F";
+            }
+
         }
 
         private void SetupRoster(Course c)
