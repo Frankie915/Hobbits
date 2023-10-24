@@ -23,7 +23,7 @@ namespace Library.Hobbits.Models
 
         public override string ToString()
         {
-            return $"[{Id}]{student.Name}: {assignment}";
+            return $"[{Id}] {student.Name}: {assignment}";
         }
     }
 }
