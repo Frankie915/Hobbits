@@ -557,21 +557,12 @@ namespace App.Hobbits.Helpers
                 selectedCourse.Roster.Where(r => r is Student).ToList().ForEach(Console.WriteLine);
                 var selectedStudentId = int.Parse(Console.ReadLine() ?? "0");
 
-                var weightedAverage = 0M;
-                foreach (var group in selectedCourse.AssignmentGroups) { 
-                    
-                    var submissions = selectedCourse.Submissions
-                        .Where(s => s.student.Id == selectedStudentId
-                            && group.Assignments.Select(a => a.Id).Contains(s.assignment.Id));
-                    if (submissions.Any())
-                    {
-                        weightedAverage += submissions.Select(selectedStudentId => selectedStudentId.Grade).Average() * group.Weight;
-                    }
-                }
+                var weightedAverage = courseService.GetWeightedGrade(selectedCourse.Id, selectedStudentId); ;
 
-                Console.WriteLine($"Student Grade: ({GetLetterGrade(weightedAverage)}) {weightedAverage}");
+                Console.WriteLine($"Student Grade: ({courseService.GetLetterGrade(weightedAverage)}) {weightedAverage}");
 
             }
+            
         }
 
         public string GetLetterGrade(decimal grade)

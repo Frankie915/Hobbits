@@ -46,6 +46,7 @@ namespace MyApp
             Console.WriteLine("2. Update a person");
             Console.WriteLine("3. List all people");
             Console.WriteLine("4. Search for person");
+            Console.WriteLine("5. Get a student's GPA");
 
             var input = Console.ReadLine();
             if (int.TryParse(input, out int result))
@@ -65,6 +66,10 @@ namespace MyApp
                 else if (result == 4)
                 {
                     studentHelper.SearchStudents();
+                }
+                else if (result == 5)
+                {
+                    studentHelper.GetGPA();
                 }
             }
         }
