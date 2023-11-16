@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
@@ -8,3 +8,6 @@
 /App.Hobbits/Library.Hobbits/obj
 /App.Hobbits/App.Hobbits/bin/Debug/net6.0
 /App.Hobbits/Library.Hobbits/bin/Debug/net6.0
+/App.Hobbits/.vs/ProjectEvaluation
+/App.Hobbits/MAUI.Hobbits/bin/Debug
+/App.Hobbits/MAUI.Hobbits/obj
