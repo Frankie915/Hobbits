@@ -1,11 +1,7 @@
 {
   "ExpandedNodes": [
     "",
-    "\\App.Hobbits",
-    "\\App.Hobbits\\Helpers",
-    "\\Library.Hobbits",
-    "\\Library.Hobbits\\Models"
+    "\\App.Hobbits"
   ],
-  "SelectedNode": "\\Library.Hobbits\\Models\\FileItem.cs",
   "PreviewInSolutionExplorer": false
 }
