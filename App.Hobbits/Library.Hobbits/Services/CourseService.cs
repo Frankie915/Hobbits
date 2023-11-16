@@ -1,10 +1,10 @@
-﻿using Library.Hobbits.Models;
+﻿using Library.Hobbits.Database;
+using Library.Hobbits.Models;
 
 namespace Library.Hobbits.Services
 {
     public class CourseService
     {
-        private List<Course> courseList = new List<Course>();
         private static CourseService? _instance;
 
         public static CourseService Current 
@@ -20,16 +20,21 @@ namespace Library.Hobbits.Services
             }
         }
 
+        private CourseService() 
+        { 
+        
+        }
+
         public void Add(Course course)
         {
-            courseList.Add(course);
+            FakeDatabase.Courses.Add(course);
         }
 
         public List<Course> Courses
         {
             get
             {
-                return courseList;
+                return FakeDatabase.Courses;
             }
         }
 

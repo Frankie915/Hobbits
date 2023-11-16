@@ -1,17 +1,26 @@
-﻿using Library.Hobbits.Models;
+﻿using Library.Hobbits.Database;
+using Library.Hobbits.Models;
 
 
 namespace Library.Hobbits.Services
 {
     public class StudentService
     {
-        private List<Person> studentList;
 
         private static StudentService? _instance;
 
+        public IEnumerable<Student> Students
+        {
+            get
+            {
+                return FakeDatabase.People.Where(p => p is Student).Select(p => p as Student);
+            }
+        }
+        
+
         public StudentService() 
         { 
-            studentList = new List<Person>();
+           
         }
 
         public static StudentService Current
@@ -26,23 +35,15 @@ namespace Library.Hobbits.Services
                 return _instance;
             }
         }
- 
-        public void Add(Person student) 
-        { 
-            studentList.Add(student);
+
+        public void Add(Person student)
+        {
+            FakeDatabase.People.Add(student);
         }
 
-        public List<Person> Students
+        public IEnumerable<Student> Search(string query) 
         {
-            get
-            {
-                return studentList;
-            }
-        }
-
-        public IEnumerable<Person> Search(string query) 
-        {
-            return studentList.Where(s => s.Name.ToUpper().Contains(query.ToUpper()));
+            return Students.Where(s => (s != null) && s.Name.ToUpper().Contains(query.ToUpper()));
         }
 
         public decimal GetGPA(int studentId)
