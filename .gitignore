@@ -3,11 +3,11 @@
 ################################################################################
 
 /.vs
-/App.Hobbits/.vs/App.Hobbits
+/App.Hobbits/.vs/
 /App.Hobbits/App.Hobbits/obj
 /App.Hobbits/Library.Hobbits/obj
 /App.Hobbits/App.Hobbits/bin/Debug/net6.0
 /App.Hobbits/Library.Hobbits/bin/Debug/net6.0
 /App.Hobbits/.vs/ProjectEvaluation
-/App.Hobbits/MAUI.Hobbits/bin/Debug
-/App.Hobbits/MAUI.Hobbits/obj/Debug
+/App.Hobbits/MAUI.Hobbits/bin/*
+/App.Hobbits/MAUI.Hobbits/obj/*
