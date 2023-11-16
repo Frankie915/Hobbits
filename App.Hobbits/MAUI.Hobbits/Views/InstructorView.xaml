@@ -8,9 +8,13 @@
             Text="INSTRUCTOR VIEW"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <Button 
+            Text="Add Enrollment"
+            Clicked="AddEnrollmentClick" 
+            />
         <Button
             Text="Cancel"
-            Clicked="CancelClicked"
+            Clicked="CancelClicked" 
             />
     </VerticalStackLayout>
 </ContentPage>
