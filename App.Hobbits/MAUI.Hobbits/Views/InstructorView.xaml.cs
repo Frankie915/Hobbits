@@ -20,8 +20,8 @@ public partial class InstructorView : ContentPage
 		(BindingContext as InstructorViewViewModel).AddClick(Shell.Current);
 	}
 
-	private void ContentPage_NavigatedTo(object sender, NavigationEventArgs e)
-	{
-		(BindingContext as InstructorViewViewModel).RefreshView();
-	}
+    private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
+    {
+        (BindingContext as InstructorViewViewModel).RefreshView();
+    }
 }

@@ -9,7 +9,7 @@ namespace Library.Hobbits.Services
 
         private static StudentService? _instance;
 
-        public IEnumerable<Student> Students
+        public IEnumerable<Student?> Students
         {
             get
             {
@@ -18,7 +18,7 @@ namespace Library.Hobbits.Services
         }
         
 
-        public StudentService() 
+        private StudentService() 
         { 
            
         }
