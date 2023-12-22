@@ -29,4 +29,9 @@ public partial class InstructorView : ContentPage
 	{
 		(BindingContext as InstructorViewViewModel).RemoveClick();
 	}
+
+    private void EditEnrollmentClick(object sender, EventArgs e)
+    {
+        (BindingContext as InstructorViewViewModel).EditEnrollmentClick(Shell.Current);
+    }
 }

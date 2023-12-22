@@ -4,14 +4,16 @@ using MAUI.Hobbits.ViewModels;
 
 namespace MAUI.Hobbits.Views;
 
+[QueryProperty(nameof(PersonId), "personId")]
+
 public partial class PersonDetailView : ContentPage
 {
     public PersonDetailView()
     {
         InitializeComponent();
-
-        BindingContext = new PersonDetailViewModel();
     }
+
+    public int PersonId { set; get; }
 
     private void OkClick(object sender, EventArgs e)
     {
@@ -25,6 +27,6 @@ public partial class PersonDetailView : ContentPage
 
     private void OnArriving(object sender, NavigatedToEventArgs e) 
     {
-        BindingContext = new PersonDetailViewModel();
+        BindingContext = new PersonDetailViewModel(PersonId);
     }
 }
